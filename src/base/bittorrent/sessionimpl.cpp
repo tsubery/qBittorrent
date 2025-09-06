@@ -3084,8 +3084,9 @@ bool SessionImpl::addTorrent_impl(const TorrentDescriptor &torrentDescr, const A
         return findIncompleteFiles(actualSavePath, actualDownloadPath, filePaths);
     };
 
-    resolveFileNames().then(this
-        , [this, id, torrentDescr, loadTorrentParams = std::move(loadTorrentParams)](const FileSearchResult &result) mutable
+    loadTorrentParams.filePaths = addTorrentParams.filePaths;
+
+    resolveFileNames().then(this, [this, id, torrentDescr, loadTorrentParams = std::move(loadTorrentParams)](const FileSearchResult &result) mutable
     {
         lt::add_torrent_params &p = loadTorrentParams.ltAddTorrentParams;
 
@@ -3094,8 +3095,13 @@ bool SessionImpl::addTorrent_impl(const TorrentDescriptor &torrentDescr, const A
         {
             const TorrentInfo torrentInfo {*p.ti};
             const auto nativeIndexes = torrentInfo.nativeIndexes();
+            auto pathSource = result.fileNames;
+
+            if (!loadTorrentParams.filePaths.isEmpty()){
+                pathSource = loadTorrentParams.filePaths;
+            }
             for (qsizetype i = 0; i < result.fileNames.size(); ++i)
-                p.renamed_files[nativeIndexes[i]] = result.fileNames[i].toString().toStdString();
+                p.renamed_files[nativeIndexes[i]] = pathSource[i].toString().toStdString();
         }
 
         m_nativeSession->async_add_torrent(p);
