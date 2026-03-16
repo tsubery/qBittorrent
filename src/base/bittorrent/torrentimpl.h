@@ -377,8 +377,8 @@ namespace BitTorrent
         TorrentContentLayout m_contentLayout = TorrentContentLayout::Original;
         bool m_hasFinishedStatus = false;
         bool m_hasMissingFiles = false;
-        bool m_hasFirstLastPiecePriority = false;
-        bool m_useAutoTMM = false;
+        bool m_hasFirstLastPiecePriority = true;
+        bool m_useAutoTMM = true;
         bool m_isStopped = false;
         StopCondition m_stopCondition = StopCondition::None;
         SSLParameters m_sslParams;

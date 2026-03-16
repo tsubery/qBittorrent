@@ -1065,7 +1065,7 @@ void TransferListWidget::displayListMenu()
     bool allSameSuperSeeding = true;
     bool superSeedingMode = false;
     bool allSameSequentialDownloadMode = true, allSamePrioFirstlast = true;
-    bool sequentialDownloadMode = false, prioritizeFirstLast = false;
+    bool sequentialDownloadMode = true, prioritizeFirstLast = true;
     bool oneHasMetadata = false, oneNotFinished = false;
     bool allSameCategory = true;
     bool allSameAutoTMM = true;
